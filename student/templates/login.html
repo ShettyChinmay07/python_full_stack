@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Student Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #141e46, #4b2c91, #667eea);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.97);
+            padding: 42px 35px;
+            border-radius: 22px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: appear 0.7s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            color: #202447;
+            font-size: 27px;
+            margin-bottom: 9px;
+        }
+
+        .header p {
+            color: #85879a;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 600;
+            color: #343750;
+            font-size: 14px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #e1e3ed;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            color: #333;
+            background: #f9faff;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+        }
+
+        .password-input {
+            padding-right: 65px !important;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 20px rgba(102, 126, 234, 0.35);
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            margin-top: 28px;
+            text-align: center;
+            color: #9294a4;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 32px 23px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">🎓</div>
+
+        <div class="header">
+            <h1>Welcome Back!</h1>
+            <p>Sign in to your Student Management System</p>
+        </div>
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">Username</label>
+
+                <div class="input-box">
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="input-box">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="password-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword()">
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Sign In →
+            </button>
+
+        </form>
+
+        <div class="footer">
+            Student Management System<br>
+            © 2026 All Rights Reserved
+        </div>
+
+    </div>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            const button = document.querySelector(".toggle-password");
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "Hide";
+            } else {
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
+
+</body>
+</html>

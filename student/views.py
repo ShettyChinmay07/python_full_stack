@@ -3,11 +3,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import Studentform_data
 from .models import Student_table
+from django.contrib.auth import authenticate, login ,logout
+from django.contrib.auth.decorators import login_required
+
 
 
 def home(request):
     data1 = {
-        'name': "Pratiksha",
+        'name': "Shetty Chinmay",
         'age': 19,
         'department': "BCA"
     }
@@ -63,4 +66,35 @@ def student_form_dj(request):
         form = Studentform_data()
 
     return render(request, 'studentformdata.html', {'form': form})
-    
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            return HttpResponse("Invalid credentials. Please try again.")
+
+    return render(request, 'login.html')
+
+
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+
+    return HttpResponse("Invalid request method. Please use POST to log out.")
